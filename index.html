@@ -1,6 +1,61 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <h1>Tesauto Configuration Environment Live</h1>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating with Tesauto...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+        }
+        .container { padding: 20px; }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #cc0000;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Authenticating with Tesauto...</h2>
+        <div class="spinner"></div>
+        <p style="color: #888888; font-size: 14px;">Redirecting you back to the application. If this window does not close automatically, please tap return.</p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // 1. Extract parameters from the current URL browser address bar
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const state = urlParams.get('state');
+
+            if (code) {
+                // 2. Build the explicit deep link using your custom registration scheme
+                const appDeepLink = `tesauto://callback?code=${encodeURIComponent(code)}${state ? `&state=${encodeURIComponent(state)}` : ''}`;
+                
+                // 3. Force the underlying webview/browser window to hand execution back to Flutter
+                window.location.href = appDeepLink;
+                
+                // Backup option for older rendering engine shells
+                setTimeout(function() {
+                    window.location = appDeepLink;
+                }, 500);
+            }
+        };
+    </script>
+</body>
 </html>
