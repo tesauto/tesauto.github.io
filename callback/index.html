@@ -1,7 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <h1>Authenticating with Tesauto...</h1>
-    <p>You can close this window if it doesn't close automatically.</p>
-  </body>
+<head>
+    <title>Authenticating Tesauto...</title>
+    <script>
+        window.onload = function() {
+            // Grab the query string arguments from the address bar (?code=NA_...)
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const state = urlParams.get('state');
+
+            if (code) {
+                // Forward the code straight to your Flutter Custom URI Scheme
+                window.location.href = "tesauto://callback?code=" + code + "&state=" + state;
+            }
+        };
+    </script>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+        <h2>Connecting to Tesauto Application...</h2>
+        <p>Passing tokens securely back to your mobile device.</p>
+    </div>
+</body>
 </html>
